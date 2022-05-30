@@ -77,6 +77,7 @@ class ReCaptchaField(forms.CharField):
                 self.error_messages["captcha_error"], code="captcha_error"
             )
 
+        import pdb; pdb.set_trace()
         if not check_captcha.is_valid:
             logger.warning(
                 "ReCAPTCHA validation failed due to: %s" % check_captcha.error_codes
