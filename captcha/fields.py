@@ -91,7 +91,9 @@ class ReCaptchaField(forms.CharField):
                     remoteip=self.get_remote_ip(),
                 )
 
-        except HTTPError:  # Catch timeouts, etc
+        except HTTPError as e:  # Catch timeouts, etc
+            print(e)
+            import pdb; pdb.set_trace()
             raise ValidationError(
                 self.error_messages["captcha_error"], code="captcha_error"
             )

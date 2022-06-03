@@ -114,6 +114,7 @@ def submit_enterprise(recaptcha_response, private_key, google_server_api_key,
     data = json.loads(response.read().decode("utf-8"))
     response.close()
     print(data)
+    import pdb; pdb.set_trace();
     return RecaptchaResponse(
         is_valid=data.pop("success"),
         error_codes=data.pop("error-codes", None),
