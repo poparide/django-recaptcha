@@ -1,3 +1,4 @@
 tox
 tox-gh-actions
 coveralls
+requests==2.26.0
