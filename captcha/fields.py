@@ -54,7 +54,6 @@ class ReCaptchaField(forms.CharField):
 
         if enterprise:
             self.enterprise = True
-            self.widget = RecaptchaEnterprise
             self.google_server_api_key = google_server_api_key
             self.google_project_id = google_project_id
             self.expected_action = expected_action
