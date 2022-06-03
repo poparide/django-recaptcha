@@ -80,7 +80,7 @@ class ReCaptchaField(forms.CharField):
         try:
             if self.enterprise:
                 check_captcha = client.submit_enterprise(value,
-                                                         self.private_key,
+                                                         self.public_key,
                                                          self.google_server_api_key,
                                                          self.google_project_id,
                                                          self.expected_action)

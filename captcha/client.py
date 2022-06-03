@@ -71,7 +71,7 @@ def submit(recaptcha_response, private_key, remoteip):
     )
 
 
-def submit_enterprise(recaptcha_response, private_key, google_server_api_key,
+def submit_enterprise(recaptcha_response, site_key, google_server_api_key,
                       google_project_id, expected_action):
     # v1beta1 allows auth by API key
     url = f"https://recaptchaenterprise.googleapis.com/v1beta1/projects/{google_project_id}/assessments?key={google_server_api_key}"
@@ -79,7 +79,7 @@ def submit_enterprise(recaptcha_response, private_key, google_server_api_key,
         "event": {
             "token": recaptcha_response,
             # need to let the client pass this along
-            "siteKey": private_key,
+            "siteKey": site_key,
             "expectedAction": expected_action,
         }
     }
