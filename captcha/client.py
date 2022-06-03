@@ -85,11 +85,10 @@ def submit_enterprise(recaptcha_response, site_key, google_server_api_key,
     }
 
     response = requests.post(url, json=recaptcha_payload)
-    print(response)
     import pdb; pdb.set_trace();
     data = response.content
     return RecaptchaResponse(
-        is_valid=data.pop("success"),
-        error_codes=data.pop("error-codes", None),
+        is_valid=data["valid"],
+        error_codes=data["invalidReason"],
         extra_data=data,
     )

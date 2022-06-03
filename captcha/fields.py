@@ -92,8 +92,6 @@ class ReCaptchaField(forms.CharField):
                 )
 
         except HTTPError as e:  # Catch timeouts, etc
-            print(e)
-            import pdb; pdb.set_trace()
             raise ValidationError(
                 self.error_messages["captcha_error"], code="captcha_error"
             )
