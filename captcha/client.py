@@ -2,6 +2,7 @@ import json
 from urllib.parse import urlencode
 from urllib.request import ProxyHandler, Request, build_opener
 
+import requests
 from django.conf import settings
 
 from captcha.constants import DEFAULT_RECAPTCHA_DOMAIN
@@ -66,5 +67,28 @@ def submit(recaptcha_response, private_key, remoteip):
     return RecaptchaResponse(
         is_valid=data.pop("success"),
         error_codes=data.pop("error-codes", None),
+        extra_data=data,
+    )
+
+
+def submit_enterprise(recaptcha_response, site_key, google_server_api_key,
+                      google_project_id, expected_action):
+    # v1beta1 allows auth by API key
+    url = f"https://recaptchaenterprise.googleapis.com/v1beta1/projects/{google_project_id}/assessments?key={google_server_api_key}"
+    recaptcha_payload = {
+        "event": {
+            "token": recaptcha_response,
+            # need to let the client pass this along
+            "siteKey": site_key,
+            "expectedAction": expected_action,
+        }
+    }
+
+    response = requests.post(url, json=recaptcha_payload)
+    import pdb; pdb.set_trace();
+    data = response.content
+    return RecaptchaResponse(
+        is_valid=data["valid"],
+        error_codes=data["invalidReason"],
         extra_data=data,
     )
