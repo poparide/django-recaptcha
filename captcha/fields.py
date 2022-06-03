@@ -9,7 +9,8 @@ from django.utils.translation import gettext_lazy as _
 
 from captcha import client
 from captcha.constants import TEST_PRIVATE_KEY, TEST_PUBLIC_KEY
-from captcha.widgets import ReCaptchaBase, ReCaptchaV2Checkbox
+from captcha.widgets import ReCaptchaBase, ReCaptchaV2Checkbox, \
+    RecaptchaEnterprise
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +22,10 @@ class ReCaptchaField(forms.CharField):
         "captcha_error": _("Error verifying reCAPTCHA, please try again."),
     }
 
-    def __init__(self, public_key=None, private_key=None, *args, **kwargs):
+    def __init__(self, public_key=None, private_key=None,
+                 enterprise=None, google_server_api_key=None,
+                 google_project_id=None, expected_action=None,
+                 *args, **kwargs):
         """
         ReCaptchaField can accepts attributes which is a dictionary of
         attributes to be passed to the ReCaptcha widget class. The widget will
@@ -48,6 +52,15 @@ class ReCaptchaField(forms.CharField):
             settings, "RECAPTCHA_PUBLIC_KEY", TEST_PUBLIC_KEY
         )
 
+        if enterprise:
+            self.enterprise = True
+            self.widget = RecaptchaEnterprise
+            self.google_server_api_key = google_server_api_key
+            self.google_project_id = google_project_id
+            self.expected_action = expected_action
+        else:
+            self.enterprise = False
+
         # Update widget attrs with data-sitekey.
         self.widget.attrs["data-sitekey"] = self.public_key
 
@@ -66,11 +79,18 @@ class ReCaptchaField(forms.CharField):
         super().validate(value)
 
         try:
-            check_captcha = client.submit(
-                recaptcha_response=value,
-                private_key=self.private_key,
-                remoteip=self.get_remote_ip(),
-            )
+            if self.enterprise:
+                check_captcha = client.submit_enterprise(value,
+                                                         self.private_key,
+                                                         self.google_server_api_key,
+                                                         self.google_project_id,
+                                                         self.expected_action)
+            else:
+                check_captcha = client.submit(
+                    recaptcha_response=value,
+                    private_key=self.private_key,
+                    remoteip=self.get_remote_ip(),
+                )
 
         except HTTPError:  # Catch timeouts, etc
             raise ValidationError(
