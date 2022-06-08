@@ -9,14 +9,19 @@
     We declare this function so that it is possible for us to refresh the token
     in a page without reloading the whole page. This is useful for example
     when we have a ReCAPTCHA protected form in a modal dialog that does things
-    with AJAX.
+    with AJAX. Callback is optional, and will execute once the token has
+    been refreshed
      */
-    function recaptcha_refresh_token() {
+    function recaptcha_refresh_token(callback) {
        grecaptcha.execute('{{ public_key }}', {action: 'form'})
         .then(function(token) {
             console.log("reCAPTCHA validated for 'data-widget-uuid=\"{{ widget_uuid }}\"'. Setting input value...")
             var element = document.querySelector('.g-recaptcha[data-widget-uuid="{{ widget_uuid }}"]');
             element.value = token;
+
+            if (callback !== undefined) {
+                callback();
+            }
         });
     }
 </script>
