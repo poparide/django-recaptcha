@@ -13,10 +13,15 @@
     been refreshed
      */
     function recaptcha_refresh_token(callback) {
-       grecaptcha.execute('{{ public_key }}', {action: 'form'})
+       var element = document.querySelector('.g-recaptcha[data-widget-uuid="{{ widget_uuid }}"]');
+       var action = element.getAttribute('data-action');
+       if (!action) {
+           action = 'form'
+       }
+
+        grecaptcha.execute('{{ public_key }}', {action: action})
         .then(function(token) {
-            console.log("reCAPTCHA validated for 'data-widget-uuid=\"{{ widget_uuid }}\"'. Setting input value...")
-            var element = document.querySelector('.g-recaptcha[data-widget-uuid="{{ widget_uuid }}"]');
+            console.log("reCAPTCHA validated for 'data-widget-uuid=\"{{ widget_uuid }}\"' and `data-action=\"" + action + "\"`. Setting input value...")
             element.value = token;
 
             if (callback !== undefined) {
