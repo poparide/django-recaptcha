@@ -55,6 +55,9 @@ class ReCaptchaBase(widgets.Widget):
 class ReCaptchaV2Checkbox(ReCaptchaBase):
     template_name = "captcha/widget_v2_checkbox.html"
 
+class ReCaptchaV2CheckboxTogetherWithV3(ReCaptchaBase):
+    template_name = "captcha/widget_v2_together_with_v3.html"
+
 
 class ReCaptchaV2Invisible(ReCaptchaBase):
     template_name = "captcha/widget_v2_invisible.html"

@@ -1,0 +1,13 @@
+{# We don't include the api.js here because it will be included by the V3 Recaptcha widget and that's how we need it to be to include both on the same page #}
+<script type="text/javascript">
+    grecaptcha.ready(() => {
+        grecaptcha.render('{{ widget_uuid }}', {
+           'sitekey' : '{{ public_key }}'
+        });
+      });
+
+    // Submit function to be called, after reCAPTCHA was successful.
+    var onSubmit_{{ widget_uuid }} = function(token) {
+        console.log("reCAPTCHA validated for 'data-widget-uuid=\"{{ widget_uuid }}\"'")
+    };
+</script>
