@@ -2,7 +2,8 @@
 <script src="https://{{ recaptcha_domain }}/recaptcha/api.js{% if api_params %}?{{ api_params }}{% endif %}"></script>
 <script type="text/javascript">
     grecaptcha.ready(() => {
-        grecaptcha.render('{{ widget_uuid }}', {
+        v2_recaptcha_element = document.querySelector("[data-widget-uuid='{{ widget_uuid }}']");
+        grecaptcha.render(v2_recaptcha_element.id, {
            'sitekey' : '{{ public_key }}'
         });
       });
