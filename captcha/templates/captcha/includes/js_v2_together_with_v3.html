@@ -1,5 +1,4 @@
 {# We don't include the api.js here because it will be included by the V3 Recaptcha widget and that's how we need it to be to include both on the same page #}
-<script src="https://{{ recaptcha_domain }}/recaptcha/api.js{% if api_params %}?{{ api_params }}{% endif %}"></script>
 <script type="text/javascript">
     grecaptcha.ready(() => {
         v2_recaptcha_element = document.querySelector("[data-widget-uuid='{{ widget_uuid }}']");
