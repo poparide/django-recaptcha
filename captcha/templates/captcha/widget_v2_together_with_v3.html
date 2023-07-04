@@ -1,5 +1,5 @@
 {% include "captcha/includes/js_v2_together_with_v3.html" %}
-<div class="g-recaptcha"
+<div class="g-recaptcha-v2"
     {% for name, value in widget.attrs.items %}{% if value is not False %} {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}{% endif %}{% endfor %}
 >
 </div>
