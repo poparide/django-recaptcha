@@ -2,11 +2,17 @@
 <script type="text/javascript">
     grecaptcha.ready(() => {
         v2_recaptcha_element = document.querySelector("[data-widget-uuid='{{ widget_uuid }}']");
-        if (v2_recaptcha_element.getAttribute('data-callback')) {
-            alert(v2_recaptcha_element.getAttribute('data-callback'));
+        data_callback = null;
+        {% for name, value in widget.attrs.items %}
+        {% if name is 'data-callback' %}
+            data_callback = {{ value }};
+        {% endif %}
+        {% endfor %}
+
+        if (data_callback) {
             grecaptcha.render(v2_recaptcha_element.id, {
                 'sitekey' : '{{ public_key }}',
-                'callback': v2_recaptcha_element.getAttribute('data-callback')
+                'callback': data_callback
             });
         } else {
             grecaptcha.render(v2_recaptcha_element.id, {
