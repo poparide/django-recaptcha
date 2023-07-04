@@ -2,9 +2,17 @@
 <script type="text/javascript">
     grecaptcha.ready(() => {
         v2_recaptcha_element = document.querySelector("[data-widget-uuid='{{ widget_uuid }}']");
-        grecaptcha.render(v2_recaptcha_element.id, {
-           'sitekey' : '{{ public_key }}'
-        });
+        if (v2_recaptcha_element.dataset.callback) {
+            grecaptcha.render(v2_recaptcha_element.id, {
+                'sitekey' : '{{ public_key }}',
+                'callback': v2_recaptcha_element.dataset.callback
+            });
+        } else {
+            grecaptcha.render(v2_recaptcha_element.id, {
+                'sitekey' : '{{ public_key }}',
+            });
+        }
+
       });
 
     // Submit function to be called, after reCAPTCHA was successful.
