@@ -13,7 +13,7 @@
     been refreshed
      */
     function recaptcha_refresh_token(callback) {
-       var element = document.querySelector('.g-recaptcha[data-widget-uuid="{{ widget_uuid }}"]');
+       var element = document.querySelector('.g-recaptcha-v3[data-widget-uuid="{{ widget_uuid }}"]');
        var action = element.getAttribute('data-action');
        if (!action) {
            action = 'form'
