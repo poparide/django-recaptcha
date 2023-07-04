@@ -2,10 +2,10 @@
 <script type="text/javascript">
     grecaptcha.ready(() => {
         v2_recaptcha_element = document.querySelector("[data-widget-uuid='{{ widget_uuid }}']");
-        {% if widget.attrs.callback  %}
+        {% if callback  %}
             grecaptcha.render(v2_recaptcha_element.id, {
                 'sitekey' : '{{ public_key }}',
-                'callback': {{ widget.attrs.callback }}
+                'callback': {{ callback }}
             });
         {%  else %}
             grecaptcha.render(v2_recaptcha_element.id, {
