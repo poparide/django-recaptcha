@@ -60,14 +60,6 @@ class ReCaptchaV2Checkbox(ReCaptchaBase):
 class ReCaptchaV2CheckboxTogetherWithV3(ReCaptchaBase):
     template_name = "captcha/widget_v2_together_with_v3.html"
 
-    def build_attrs(self, base_attrs, extra_attrs=None):
-        attrs = super().build_attrs(base_attrs, extra_attrs)
-
-        if self.callback and attrs.get("data-callback"):
-            del attrs['data-callback']
-
-        return attrs
-
 
 class ReCaptchaV2Invisible(ReCaptchaBase):
     template_name = "captcha/widget_v2_invisible.html"
