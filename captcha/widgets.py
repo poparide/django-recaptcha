@@ -88,3 +88,7 @@ class ReCaptchaV3(ReCaptchaBase):
 
     def value_from_datadict(self, data, files, name):
         return data.get(name)
+
+
+class RecaptchaEnterprise(ReCaptchaBase):
+    template_name = "captcha/widget_enterprise.html"
