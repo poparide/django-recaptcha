@@ -17,10 +17,11 @@ class ReCaptchaBase(widgets.Widget):
 
     recaptcha_response_name = "g-recaptcha-response"
 
-    def __init__(self, api_params=None, *args, **kwargs):
+    def __init__(self, api_params=None, callback=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.uuid = uuid.uuid4().hex
         self.api_params = api_params or {}
+        self.callback = callback
 
     def value_from_datadict(self, data, files, name):
         return data.get(self.recaptcha_response_name, None)
@@ -36,6 +37,7 @@ class ReCaptchaBase(widgets.Widget):
                 "recaptcha_domain": getattr(
                     settings, "RECAPTCHA_DOMAIN", DEFAULT_RECAPTCHA_DOMAIN
                 ),
+                "callback": self.callback
             }
         )
         return context
@@ -54,6 +56,9 @@ class ReCaptchaBase(widgets.Widget):
 
 class ReCaptchaV2Checkbox(ReCaptchaBase):
     template_name = "captcha/widget_v2_checkbox.html"
+
+class ReCaptchaV2CheckboxAlongsideV3(ReCaptchaBase):
+    template_name = "captcha/widget_v2_alongside_v3.html"
 
 
 class ReCaptchaV2Invisible(ReCaptchaBase):
@@ -83,3 +88,7 @@ class ReCaptchaV3(ReCaptchaBase):
 
     def value_from_datadict(self, data, files, name):
         return data.get(name)
+
+
+class RecaptchaEnterprise(ReCaptchaBase):
+    template_name = "captcha/widget_enterprise.html"
